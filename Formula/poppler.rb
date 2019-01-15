@@ -1,19 +1,14 @@
 class Poppler < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  url "https://poppler.freedesktop.org/poppler-0.72.0.tar.xz"
-  sha256 "c1747eb8f26e9e753c4001ed951db2896edc1021b6d0f547a0bd2a27c30ada51"
+  url "https://poppler.freedesktop.org/poppler-0.73.0.tar.xz"
+  sha256 "e44b5543903128884ba4538c2a97d3bcc8889e97ffacc4636112101f0238db03"
   head "https://anongit.freedesktop.org/git/poppler/poppler.git"
-
-  patch do
-    url "https://raw.githubusercontent.com/rwinlib/poppler/v0.72.1/mingw-w64-poppler/backports.patch"
-    sha256 "44bc01938c5f785babd1e454fcf017eb5006156154985f052b5a2f689362b0c2"
-  end
 
   bottle do
     cellar :any
     root_url "https://jeroen.github.io/bottles"
-    sha256 "493c5a1fc415eac318c6468b8b878a1e0ff513eea8aa2d5779b22c32f1abd681" => :el_capitan_or_later
+    sha256 "6c659f3920d3a1915b9e54bcd153cf29b9203ecd1e701f78f6f3059313a9029b" => :el_capitan_or_later
   end
 
   option "with-qt", "Build Qt5 backend"
@@ -53,8 +48,8 @@ class Poppler < Formula
       -DBUILD_GTK_TESTS=OFF
       -DENABLE_CMS=lcms2
       -DENABLE_GLIB=ON
-      -DENABLE_QT4=OFF
-      -DENABLE_XPDF_HEADERS=ON
+      -DENABLE_QT5=OFF
+      -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
       -DENABLE_NSS3=OFF
       -DWITH_GObjectIntrospection=OFF
     ]
