@@ -1,48 +1,46 @@
 class ApacheArrow < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://www.apache.org/dyn/closer.cgi?path=arrow/arrow-0.10.0/apache-arrow-0.10.0.tar.gz"
-  sha256 "943207a2fcc7ba8de0e50bdb6c6ea4e9ed7f7e7bf55f6b426d7f867f559e842d"
+  url "https://www.apache.org/dist/arrow/arrow-0.12.0/apache-arrow-0.12.0.tar.gz"
+  sha256 "34dae7e4dde9274e9a52610683e78a80f3ca312258ad9e9f2c0973cf44247a98"
   head "https://github.com/apache/arrow.git"
 
   bottle do
-    cellar :any
-    sha256 "dbc02ab8107f00866fbb9790766b5a094c6e094067911a009609c353a4fc4235" => :mojave
-    sha256 "01d7964f039c3fb7b7ae0fe1d7fa1250e31fec7c0364f5c23f02b9d08eb29fde" => :high_sierra
-    sha256 "b593917a4afed051e2e1b632610a1aeda585db5c932e5b9cb15241dd866114b4" => :sierra
-    sha256 "e58c29b2f8eb2b05f44dca174acacf59fbf4cb71fdc099976e353c339d23ff65" => :el_capitan
+    cellar :any_skip_relocation
+    root_url "https://jeroen.github.io/bottles"
+    sha256 "69599ed990e30bd231af794957d0b6ae6f003cc11b4accea4cf830c2205f988b" => :el_capitan_or_later
   end
 
   depends_on "cmake" => :build
   depends_on "boost"
-  depends_on "jemalloc"
-  depends_on "python" => :optional
-  depends_on "python@2" => :optional
-
-  # Fix "Invalid character ('{') in a variable name: 'ENV'"
-  # Upstream PR 08 Aug 2018 "[C++] Fix a typo in `FindClangTools.cmake`."
-  # See https://github.com/apache/arrow/pull/2404
-  patch do
-    url "https://github.com/apache/arrow/pull/2404.patch?full_index=1"
-    sha256 "77a03e841186e132b44d8a6212c7ca6934b1b9bd77173f91cff53507b0906f3e"
-  end
 
   needs :cxx11
 
   def install
     ENV.cxx11
-    args = []
 
-    if build.with?("python") && build.with?("python@2")
-      odie "Cannot provide both --with-python and --with-python@2"
-    end
-    Language::Python.each_python(build) do |python, _version|
-      args << "-DARROW_PYTHON=1" << "-DPYTHON_EXECUTABLE=#{which python}"
-    end
+    args = std_cmake_args + %w[
+    -DARROW_BUILD_STATIC=ON
+    -DARROW_BUILD_TESTS=OFF
+    -DARROW_PYTHON=OFF
+    -DARROW_BOOST_USE_SHARED=OFF
+    -DARROW_WITH_SNAPPY=OFF
+    -DARROW_WITH_ZSTD=OFF
+    -DARROW_WITH_LZ4=OFF
+    -DARROW_JEMALLOC=OFF
+    -DARROW_BUILD_SHARED=OFF
+    -DARROW_BOOST_VENDORED=OFF
+    -DARROW_WITH_ZLIB=OFF
+    -DARROW_WITH_BROTLI=OFF
+    -DARROW_USE_GLOG=OFF
+    -DPTHREAD_LIBRARY=OFF
+    -DARROW_BUILD_UTILITIES=ON
+    -DARROW_TEST_LINKAGE="static"
+    -DARROW_HDFS=OFF
+    ]
 
     cd "cpp" do
-      system "cmake", ".", *std_cmake_args, *args
-      system "make", "unittest"
+      system "cmake", ".", *args
       system "make", "install"
     end
   end
