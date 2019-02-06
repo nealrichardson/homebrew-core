@@ -3,22 +3,20 @@ class V8 < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   url "https://chromium.googlesource.com/chromium/tools/depot_tools.git",
-      :revision => "d61997d37c8f7cc68080f39d4b516fb7b269b46c"
-  version "6.8.275.26" # the version of the v8 checkout, not a depot_tools version
+      :revision => "b69515579db8fb53d13c0d7acf4b5fc6ac4e2b5e"
+  version "7.2.502.24" # the version of the v8 checkout, not a depot_tools version
 
   bottle do
-    cellar :any
-    root_url "https://homebrew.bintray.com/bottles"
-    sha256 "5b20a2d676ae0a19dccc42e6c851c6aa558ba9e72a85a9fee0209272a7f6546f" => :high_sierra
-    sha256 "99ad3d835e9cac461b2df8142b3a1c242feb7ab2484f2b970bc8abf102b8ad17" => :sierra
-    sha256 "802f1e00507bb68fafaf43e46469d37f97f0e95fd0939d0cca8ed7be889c0f69" => :el_capitan
+    cellar :any_skip_relocation
+    root_url "https://jeroen.github.io/bottles"
+    sha256 "5383898b7795fbc6c5e84a24b2c5c4fa78fc52cb0b9f6ed3deda8956f847b891" => :el_capitan
   end
-
-  # https://bugs.chromium.org/p/chromium/issues/detail?id=620127
-  depends_on :macos => :el_capitan
 
   # depot_tools/GN require Python 2.7+
   depends_on "python@2" => :build
+
+  # https://bugs.chromium.org/p/chromium/issues/detail?id=620127
+  depends_on :macos => :el_capitan
 
   def install
     # Add depot_tools in PATH
@@ -32,7 +30,7 @@ class V8 < Formula
     system "gclient", "config", "--spec", <<~EOS
       solutions = [
         {
-          "url": "https://chromium.googlesource.com/v8/v8.git",
+          "url": "https://github.com/v8/v8.git",
           "managed": False,
           "name": "v8",
           "deps_file": "DEPS",
@@ -55,10 +53,13 @@ class V8 < Formula
       output_path = "out.gn/x64.release"
 
       gn_args = {
-        :is_debug => false,
-        :is_component_build => true,
+        :is_debug                     => false,
+        :is_component_build           => false,
+        :v8_static_library            => true,
+        :symbol_level                 => 0,
+        :enable_nacl                  => false,
         :v8_use_external_startup_data => false,
-        :v8_enable_i18n_support => true,
+        :v8_enable_i18n_support       => false,
       }
 
       # Transform to args string
@@ -74,7 +75,7 @@ class V8 < Formula
       include.install Dir["include/*"]
 
       cd output_path do
-        lib.install Dir["lib*.dylib"]
+        lib.install Dir["obj/lib*.a"]
 
         # Install d8 and icudtl.dat in libexec and symlink
         # because they need to be in the same directory.
