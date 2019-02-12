@@ -9,7 +9,7 @@ class Pinentry < Formula
   bottle do
     cellar :any_skip_relocation
     root_url "https://jeroen.github.io/bottles"
-    sha256 "b6861a1a768fe3748589eb620141e286c3b1ed3abba15c92ae50bffe4b647826" => :el_capitan
+    sha256 "b6861a1a768fe3748589eb620141e286c3b1ed3abba15c92ae50bffe4b647826" => :el_capitan_or_later
   end
   depends_on "pkg-config" => :build
   depends_on "gtk+" => :optional

@@ -8,7 +8,7 @@ class MariadbConnectorC < Formula
     cellar :any
     rebuild 1
     root_url "https://jeroen.github.io/bottles"
-    sha256 "bf296351cf8d538c60dfc0a966edbc06144982d121972d7788accb85aa0e2930" => :el_capitan
+    sha256 "bf296351cf8d538c60dfc0a966edbc06144982d121972d7788accb85aa0e2930" => :el_capitan_or_later
   end
 
   depends_on "cmake" => :build
