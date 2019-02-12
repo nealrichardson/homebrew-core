@@ -6,21 +6,14 @@ class X264 < Formula
   stable do
     # the latest commit on the stable branch
     url "https://git.videolan.org/git/x264.git",
-        :revision => "e9a5903edf8ca59ef20e6f4894c196f135af735e"
-    version "r2854"
-
-    # This should probably be removed with the next stable release
-    # since HEAD now produces multiple bitdepths at once by default.
-    option "with-10-bit", "Build a 10-bit x264 (default: 8-bit)"
+        :revision => "0a84d986e7020f8344f00752e3600b9769cc1e85"
+    version "r2917"
   end
 
   bottle do
     cellar :any
-    rebuild 1
-    sha256 "b6c3f76b92275b17f6ee61de360db9200112ac529d58ae36267b6c955fea4ac3" => :mojave
-    sha256 "f9217e7b29e737cc050f04183266a19c75fb01b1e9101818bad014a7cdf62f16" => :high_sierra
-    sha256 "c047a907ed59ffecfba24792f800c21a3226cadb6cb2155943711a373950a1eb" => :sierra
-    sha256 "04a9a0a821da861a283c92993426c1cdfe3cfd786898b7dac8bd9c477c5d02d7" => :el_capitan
+    root_url "https://jeroen.github.io/bottles"
+    sha256 "b848b6282558496b4ca4f39c8358f6f600cca2bb09da3e1af326d058b3fe989d" => :el_capitan_or_later
   end
 
   depends_on "nasm" => :build
@@ -33,7 +26,6 @@ class X264 < Formula
       --enable-static
       --enable-strip
     ]
-    args << "--bit-depth=10" if build.stable? && build.with?("10-bit")
 
     system "./configure", *args
     system "make", "install"
