@@ -13,15 +13,15 @@ class ApacheArrow < Formula
 
   depends_on "autoconf" => :build
   depends_on "cmake" => :build
-  depends_on "boost"
-  depends_on "flatbuffers"
-  depends_on "lz4"
-  depends_on "numpy"
+  depends_on "boost" => :build
+  depends_on "flatbuffers" => :build
+  depends_on "lz4" => :build
+  depends_on "numpy" => :build
   depends_on "protobuf"
-  depends_on "python"
-  depends_on "snappy"
-  depends_on "thrift"
-  depends_on "zstd"
+  depends_on "python" => :build
+  depends_on "snappy" => :build
+  depends_on "thrift" => :build
+  depends_on "zstd" => :build
 
   def install
     ENV.cxx11
