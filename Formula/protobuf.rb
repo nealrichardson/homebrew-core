@@ -1,20 +1,23 @@
 class Protobuf < Formula
   desc "Protocol buffers (Google's data interchange format)"
-  homepage "https://github.com/protocolbuffers/protobuf/"
-  url "https://github.com/protocolbuffers/protobuf.git",
-      :tag => "v3.6.1",
-      :revision => "48cb18e5c419ddd23d9badcfe4e9df7bde1979b2"
-  head "https://github.com/protocolbuffers/protobuf.git"
+  homepage "https://github.com/google/protobuf/"
+  url "https://github.com/google/protobuf/archive/v3.5.1.tar.gz"
+  sha256 "826425182ee43990731217b917c5c3ea7190cfda141af4869e6d4ad9085a740f"
+  revision 1
+  head "https://github.com/google/protobuf.git"
 
   bottle do
-    sha256 "47bfed73e275684cd1b74d0817239661bdeab555744ac7345467abba4fa58216" => :mojave
-    sha256 "0f5f2cf5d166e083f7456e08f3dca248625b1c385e91fd1fd7c8bf9f46162092" => :high_sierra
-    sha256 "a667c98b9cf7d81bd81436d50bc8ad4dea8e8e063ab1ed1be7f95625cddf4eb2" => :sierra
-    sha256 "ef87974beb704c499ee6233211358e900372c89b09c3438d8933f18af70b1750" => :el_capitan
+    sha256 "89d3e4a62799951c2a908f102ed305691f0fd0141b27c4337ef9bfe64840d8a9" => :high_sierra
+    sha256 "917abbf787422c4702b3104f5f6fb77f48dae573284f5aa7a9a2ef53793e5834" => :sierra
+    sha256 "5a0956aa0639b5943bee597942e7c0ab1439f2db6e322423a72a5ad68e28af82" => :el_capitan
+    root_url "https://homebrew.bintray.com/bottles"
   end
 
+  # this will double the build time approximately if enabled
+  option "with-test", "Run build-time check"
   option "without-python@2", "Build without python2 support"
 
+  deprecated_option "with-check" => "with-test"
   deprecated_option "without-python" => "with-python@2"
   deprecated_option "with-python3" => "with-python"
 
@@ -29,26 +32,28 @@ class Protobuf < Formula
     sha256 "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
   end
 
-  # Upstream PR from 3 Jul 2018 "Add Python 3.7 compatibility"
-  patch do
-    url "https://github.com/protocolbuffers/protobuf/pull/4862.patch?full_index=1"
-    sha256 "4b1fe1893c40cdcef531c31746ddd18759c9ce3564c89ddcc0ec934ea5dbf377"
+  # Upstream's autogen script fetches this if not present
+  # but does no integrity verification & mandates being online to install.
+  resource "gmock" do
+    url "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/googlemock/gmock-1.7.0.zip"
+    mirror "https://dl.bintray.com/homebrew/mirror/gmock-1.7.0.zip"
+    sha256 "26fcbb5925b74ad5fc8c26b0495dfc96353f4d553492eb97e85a8a6d2f43095b"
   end
-
-  needs :cxx11
 
   def install
     # Don't build in debug mode. See:
     # https://github.com/Homebrew/homebrew/issues/9279
-    # https://github.com/protocolbuffers/protobuf/blob/5c24564811c08772d090305be36fae82d8f12bbe/configure.ac#L61
+    # https://github.com/google/protobuf/blob/5c24564811c08772d090305be36fae82d8f12bbe/configure.ac#L61
     ENV.prepend "CXXFLAGS", "-DNDEBUG"
     ENV.cxx11
 
+    (buildpath/"gmock").install resource("gmock")
     system "./autogen.sh"
+
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}", "--with-zlib"
     system "make"
-    system "make", "check" if build.bottle?
+    system "make", "check" if build.with?("test") || build.bottle?
     system "make", "install"
 
     # Install editor support and examples
