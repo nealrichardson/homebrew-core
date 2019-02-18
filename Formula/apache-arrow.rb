@@ -6,35 +6,31 @@ class ApacheArrow < Formula
 
   bottle do
     cellar :any
-    rebuild 1
+    rebuild 2
     root_url "https://jeroen.github.io/bottles"
-    sha256 "b0bdbe5b924832ba7afbeb5f6173fda4f2756cf7f9df3024dd0388734c1ac844" => :el_capitan
+    sha256 "4b6cbf95f93b647d4d4e201176aab90b778f84c4b255438337706fc13768c97c" => :el_capitan
   end
 
   depends_on "autoconf" => :build
   depends_on "cmake" => :build
-  depends_on "boost" => :build
-  depends_on "flatbuffers" => :build
-  depends_on "lz4" => :build
-  depends_on "numpy" => :build
+  depends_on "boost"
+  depends_on "flatbuffers"
+  depends_on "lz4"
   depends_on "protobuf"
-  depends_on "python" => :build
-  depends_on "snappy" => :build
-  depends_on "thrift" => :build
-  depends_on "zstd" => :build
+  depends_on "snappy"
+  depends_on "thrift"
+  depends_on "zstd"
 
   def install
     ENV.cxx11
     args = %W[
-      -DARROW_ORC=ON
       -DARROW_PARQUET=ON
-      -DARROW_PLASMA=ON
+      -DARROW_PLASMA=OFF
       -DARROW_PROTOBUF_USE_SHARED=ON
-      -DARROW_PYTHON=ON
+      -DARROW_PYTHON=OFF
       -DFLATBUFFERS_HOME=#{Formula["flatbuffers"].prefix}
       -DLZ4_HOME=#{Formula["lz4"].prefix}
       -DPROTOBUF_HOME=#{Formula["protobuf"].prefix}
-      -DPYTHON_EXECUTABLE=#{Formula["python"].bin/"python3"}
       -DSNAPPY_HOME=#{Formula["snappy"].prefix}
       -DTHRIFT_HOME=#{Formula["thrift"].prefix}
       -DZSTD_HOME=#{Formula["zstd"].prefix}
