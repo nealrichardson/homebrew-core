@@ -1,14 +1,13 @@
 class Harfbuzz < Formula
   desc "OpenType text shaping engine"
   homepage "https://wiki.freedesktop.org/www/Software/HarfBuzz/"
-  url "https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.9.0.tar.bz2"
-  sha256 "11eca62bf0ac549b8d6be55f4e130946399939cdfe7a562fdaee711190248b00"
+  url "https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.3.1.tar.bz2"
+  sha256 "f205699d5b91374008d6f8e36c59e419ae2d9a7bb8c5d9f34041b9a5abcae468"
 
   bottle do
-    sha256 "0bb82176ab60f4021bfda809136bc398006b3d3ba05447eddb96f963946297df" => :mojave
-    sha256 "1d4ea4bdf5f1711ab69cbd7851f8265a59e8e0be39f55de0c3b91a05138f4208" => :high_sierra
-    sha256 "e941d2dc406e12806fc36f67168a2ff5769121c462ab4fc46b0b584b94790b9a" => :sierra
-    sha256 "7bf90617c7f5cfbe885849984d67a1891b6eadb0a587a503d9709ff530b24224" => :el_capitan
+    cellar :any
+    root_url "https://jeroen.github.io/bottles"
+    sha256 "86218514b0bb7b9825eac4d7e28f614d1635c55f92edf473fcb222c2906fbcf9" => :el_capitan
   end
 
   head do
@@ -25,8 +24,6 @@ class Harfbuzz < Formula
   depends_on "cairo"
   depends_on "freetype"
   depends_on "glib"
-  depends_on "graphite2"
-  depends_on "icu4c"
 
   resource "ttf" do
     url "https://github.com/behdad/harfbuzz/raw/fc0daafab0336b847ac14682e581a8838f36a0bf/test/shaping/fonts/sha1sum/270b89df543a7e48e206a2d830c0e10e5265c630.ttf"
@@ -37,15 +34,15 @@ class Harfbuzz < Formula
     args = %W[
       --disable-dependency-tracking
       --prefix=#{prefix}
-      --enable-introspection=yes
+      --enable-introspection=no
       --enable-static
       --with-cairo=yes
       --with-coretext=yes
       --with-freetype=yes
       --with-glib=yes
-      --with-gobject=yes
-      --with-graphite2=yes
-      --with-icu=yes
+      --with-gobject=no
+      --with-graphite2=no
+      --with-icu=no
     ]
 
     system "./autogen.sh" if build.head?
