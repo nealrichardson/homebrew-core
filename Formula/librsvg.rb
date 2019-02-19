@@ -6,7 +6,7 @@ class Librsvg < Formula
 
   bottle do
     cellar :any
-    root_url: "https://jeroen.github.io/bottles"
+    root_url "https://jeroen.github.io/bottles"
     sha256 "f39e8bbb5baac4273f55741b44870ccd65143535aefd908c40e25d8cbcb8c7d7" => :el_capitan_or_later
   end
 
