@@ -5,9 +5,10 @@ class Cairo < Formula
   sha256 "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
 
   bottle do
-    rebuild 1
+    rebuild 2
+    cellar :any_skip_relocation
     root_url "https://jeroen.github.io/bottles"
-    sha256 "4a058e1a2a21f13067903b2957cdfcad528b057c1753361c32bab38c60723a10" => :el_capitan
+    sha256 "6ae6d08a357c4b32672a5b228555e50509cc6404bd0a530f2a5d5ba8493d5d6a" => :el_capitan
   end
 
   head do
