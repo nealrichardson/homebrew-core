@@ -5,8 +5,9 @@ class Cairo < Formula
   sha256 "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
 
   bottle do
+    rebuild 1
     root_url "https://jeroen.github.io/bottles"
-    sha256 "249cffe859b679be548c4abded379d24748bfd687491506d130fe8a119aee25c" => :el_capitan_or_later
+    sha256 "4a058e1a2a21f13067903b2957cdfcad528b057c1753361c32bab38c60723a10" => :el_capitan
   end
 
   head do
@@ -17,6 +18,7 @@ class Cairo < Formula
   end
 
   depends_on "pkg-config" => :build
+  depends_on "fontconfig"
   depends_on "freetype"
   depends_on "libpng"
   depends_on "pixman"
@@ -30,7 +32,7 @@ class Cairo < Formula
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
                           "--enable-gobject=no",
-                          "--enable-fc=no",
+                          "--enable-fc=yes",
                           "--enable-svg=yes",
                           "--enable-tee=yes",
                           "--enable-quartz",
