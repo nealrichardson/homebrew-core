@@ -1,30 +1,22 @@
 class Tbb < Formula
   desc "Rich and complete approach to parallelism in C++"
   homepage "https://www.threadingbuildingblocks.org/"
-  url "https://github.com/01org/tbb/archive/2018_U5.tar.gz"
-  version "2018_U5"
-  sha256 "c4c2896af527392496c5e01ef8579058a71b6eebbd695924cd138841c13f07be"
+  url "https://github.com/01org/tbb/archive/2019_U5.tar.gz"
+  version "2019_U5"
+  sha256 "2ea82d74dec50e18075b4982b8d360f8bd2bf2950f38e2db483aef82e0047444"
 
   bottle do
-    sha256 "588e5c92283a734c352675c207a0e13e05d912c37a90ca8811e83f74296d94d8" => :mojave
-    sha256 "13dee1e36ddfbbdb4cf16da41f58e3dfb01eb93a7f194c2a70515d92e6f6f2f4" => :high_sierra
-    sha256 "49c638cfb12764b0dd121e0c62183bdc28282d44d5363b65d1c4d983ae58aa67" => :sierra
-    sha256 "862a820d1859fa1a1afd8c3528097eeb731d4e24f4253832a9e085676a81ddf1" => :el_capitan
+    cellar :any_skip_relocation
+    root_url "https://jeroen.github.io/bottles"
+    sha256 "379dfa611ead7093563b922ac34f3c08c1d9eb3530954993dcdd18b67df7a481" => :el_capitan_or_later
   end
 
   depends_on "cmake" => :build
   depends_on "swig" => :build
-  # requires malloc features first introduced in Lion
-  # https://github.com/Homebrew/homebrew/issues/32274
-  depends_on :macos => :lion
-  depends_on "python@2"
+  depends_on "python" => :build
 
   def install
     compiler = (ENV.compiler == :clang) ? "clang" : "gcc"
-    system "make", "tbb_build_prefix=BUILDPREFIX", "compiler=#{compiler}"
-    lib.install Dir["build/BUILDPREFIX_release/*.dylib"]
-
-    # Build and install static libraries
     system "make", "tbb_build_prefix=BUILDPREFIX", "compiler=#{compiler}",
                    "extra_inc=big_iron.inc"
     lib.install Dir["build/BUILDPREFIX_release/*.a"]
@@ -32,7 +24,7 @@ class Tbb < Formula
 
     cd "python" do
       ENV["TBBROOT"] = prefix
-      system "python", *Language::Python.setup_install_args(prefix)
+      system "python3", *Language::Python.setup_install_args(prefix)
     end
 
     system "cmake", "-DTBB_ROOT=#{prefix}",
