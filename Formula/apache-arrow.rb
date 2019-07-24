@@ -1,12 +1,12 @@
 class ApacheArrow < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://archive.apache.org/dist/arrow/arrow-0.14.0/apache-arrow-0.14.0.tar.gz"
-  sha256 "71e668e1901a06211d3f7ab6b6c7cb80ab1c81bb0d22885be42b74782e953470"
+  url "https://archive.apache.org/dist/arrow/arrow-0.14.1/apache-arrow-0.14.1.tar.gz"
+  sha256 "9948ddb6d4798b51552d0dca3252dd6e3a7d0f9702714fc6f5a1b59397ce1d28"
 
   bottle do
     cellar :any
-    sha256 "c4f9f1d0868fa0409f5ada3ac0674a75e6ead00dcd370a8a8cc9ca216863fded" => :el_capitan_or_later
+    sha256 "b00e518cda38f90ecefaf542d4c030a966eae50623b057e9edb6fbe93fc3f4ab" => :el_capitan_or_later
     root_url "https://jeroen.github.io/bottles"
   end
 
