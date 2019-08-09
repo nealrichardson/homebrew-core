@@ -71,40 +71,6 @@ class Openssl < Formula
     etc/"openssl"
   end
 
-  def post_install
-    keychains = %w[
-      /System/Library/Keychains/SystemRootCertificates.keychain
-    ]
-
-    certs_list = `security find-certificate -a -p #{keychains.join(" ")}`
-    certs = certs_list.scan(
-      /-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----/m,
-    )
-
-    valid_certs = certs.select do |cert|
-      IO.popen("#{bin}/openssl x509 -inform pem -checkend 0 -noout", "w") do |openssl_io|
-        openssl_io.write(cert)
-        openssl_io.close_write
-      end
-
-      $CHILD_STATUS.success?
-    end
-
-    openssldir.mkpath
-    (openssldir/"cert.pem").atomic_write(valid_certs.join("\n"))
-  end
-
-  def caveats; <<~EOS
-    A CA file has been bootstrapped using certificates from the SystemRoots
-    keychain. To add additional certificates (e.g. the certificates added in
-    the System keychain), place .pem files in
-      #{openssldir}/certs
-
-    and run
-      #{opt_bin}/c_rehash
-  EOS
-  end
-
   test do
     # Make sure the necessary .cnf file exists, otherwise OpenSSL gets moody.
     assert_predicate HOMEBREW_PREFIX/"etc/openssl/openssl.cnf", :exist?,
