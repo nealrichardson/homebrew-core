@@ -8,7 +8,7 @@ class Ffmpeg < Formula
   bottle do
     rebuild 1
     cellar :any_skip_relocation
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "d3db932d17115abb7e6c6895fdd8c8799ae3adfcfd4da568a84cfdf504241225" => :el_capitan_or_later
   end
 

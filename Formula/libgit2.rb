@@ -7,7 +7,7 @@ class Libgit2 < Formula
 
   bottle do
     cellar :any
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "74f2a49a7f0d37b99484f138d17f520e250e0849167c7365718f1fbb2e81c702" => :el_capitan
   end
 

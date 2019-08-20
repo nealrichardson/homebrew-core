@@ -7,7 +7,7 @@ class GdkPixbuf < Formula
   bottle do
     rebuild 1
     cellar :any
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "57ffaa5c6cbbae6c1f40883339db99003e729a9ae918ab054cf46204bf566a78" => :el_capitan
   end
 

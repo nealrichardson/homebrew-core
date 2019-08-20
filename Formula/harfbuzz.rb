@@ -6,7 +6,7 @@ class Harfbuzz < Formula
 
   bottle do
     cellar :any
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "86218514b0bb7b9825eac4d7e28f614d1635c55f92edf473fcb222c2906fbcf9" => :el_capitan
   end
 

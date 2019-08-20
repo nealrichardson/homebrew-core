@@ -7,7 +7,7 @@ class Cairo < Formula
   bottle do
     rebuild 2
     cellar :any_skip_relocation
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "6ae6d08a357c4b32672a5b228555e50509cc6404bd0a530f2a5d5ba8493d5d6a" => :el_capitan
   end
 

@@ -7,7 +7,7 @@ class MariadbConnectorC < Formula
   bottle do
     cellar :any
     rebuild 1
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "bf296351cf8d538c60dfc0a966edbc06144982d121972d7788accb85aa0e2930" => :el_capitan_or_later
   end
 

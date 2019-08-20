@@ -8,7 +8,7 @@ class V8 < Formula
 
   bottle do
     cellar :any_skip_relocation
-    root_url "https://jeroen.github.io/bottles"
+    root_url "https://autobrew.github.io/bottles"
     sha256 "5383898b7795fbc6c5e84a24b2c5c4fa78fc52cb0b9f6ed3deda8956f847b891" => :el_capitan_or_later
   end
 
