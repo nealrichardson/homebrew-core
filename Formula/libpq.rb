@@ -1,29 +1,41 @@
 class Libpq < Formula
   desc "Postgres C API library"
-  homepage "https://www.postgresql.org/docs/10/static/libpq.html"
-  url "https://ftp.postgresql.org/pub/source/v10.5/postgresql-10.5.tar.bz2"
-  sha256 "6c8e616c91a45142b85c0aeb1f29ebba4a361309e86469e0fb4617b6a73c4011"
+  homepage "https://www.postgresql.org/docs/12/libpq.html"
+  url "https://ftp.postgresql.org/pub/source/v12.1/postgresql-12.1.tar.bz2"
+  sha256 "a09bf3abbaf6763980d0f8acbb943b7629a8b20073de18d867aecdb7988483ed"
+  revision 1
 
   bottle do
-    sha256 "6759f79a89a6076dd0a08bc5abad1eeac4077204fcec749f708822a2bf88365a" => :mojave
-    sha256 "59d624bb0b6f768941b4bec8ac4e609fd2c9ced5d5b684df45a0ccb02ecc0dd6" => :high_sierra
-    sha256 "f6a18ba733548a055e58b9167bfaab26541d7186a76c1d6645f4c1f3ff16367e" => :sierra
-    sha256 "47e6cef412a9622b9df2a8dfca6181a066502044fe5445e62b3f254ff03bb586" => :el_capitan
+    cellar :any
+    root_url "https://autobrew.github.io/bottles"
+    sha256 "927edb9fd16c728159e0e85338a14f6970558e7854c41d78f1e1726a503ee723" => :el_capitan_or_later
   end
 
   keg_only "conflicts with postgres formula"
 
-  depends_on "openssl"
+  depends_on "openssl@1.1"
 
   def install
     system "./configure", "--disable-debug",
                           "--prefix=#{prefix}",
-                          "--with-openssl"
+                          "--with-gssapi",
+                          "--with-openssl",
+                          "--libdir=#{opt_lib}",
+                          "--includedir=#{opt_include}"
+    dirs = %W[
+      libdir=#{lib}
+      includedir=#{include}
+      pkgincludedir=#{include}/postgresql
+      includedir_server=#{include}/postgresql/server
+      includedir_internal=#{include}/postgresql/internal
+    ]
     system "make"
-    system "make", "-C", "src/bin", "install"
-    system "make", "-C", "src/include", "install"
-    system "make", "-C", "src/interfaces", "install"
-    system "make", "-C", "doc", "install"
+    system "make", "-C", "src/bin", "install", *dirs
+    system "make", "-C", "src/include", "install", *dirs
+    system "make", "-C", "src/interfaces", "install", *dirs
+    system "make", "-C", "src/port", "install", *dirs
+    system "make", "-C", "src/common", "install", *dirs
+    system "make", "-C", "doc", "install", *dirs
   end
 
   test do
