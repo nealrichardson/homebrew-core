@@ -1,15 +1,14 @@
 class Ffmpeg < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  url "https://ffmpeg.org/releases/ffmpeg-4.1.1.tar.xz"
-  sha256 "373749824dfd334d84e55dff406729edfd1606575ee44dd485d97d45ea4d2d86"
+  url "https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.xz"
+  sha256 "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
   head "https://github.com/FFmpeg/FFmpeg.git"
 
   bottle do
-    rebuild 1
     cellar :any_skip_relocation
     root_url "https://autobrew.github.io/bottles"
-    sha256 "d3db932d17115abb7e6c6895fdd8c8799ae3adfcfd4da568a84cfdf504241225" => :el_capitan_or_later
+    sha256 "ccf70655943ec26ba729f271df501f28f46b5c24738fb94e2405b825ad6fadd1" => :el_capitan_or_later
   end
 
   depends_on "nasm" => :build
