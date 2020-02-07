@@ -1,9 +1,9 @@
 class ApacheArrow < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://archive.apache.org/dist/arrow/arrow-0.15.1/apache-arrow-0.15.1.tar.gz"
-  mirror "https://www-eu.apache.org/dist/arrow/arrow-0.15.1/apache-arrow-0.15.1.tar.gz"
-  sha256 "9a2c58c72310eafebb4997244cbeeb8c26696320d0ae3eb3e8512f75ef856fc9"
+  url "https://www-us.apache.org/dist/arrow/arrow-0.16.0/apache-arrow-0.16.0.tar.gz"
+  mirror "https://www-eu.apache.org/dist/arrow/arrow-0.16.0/apache-arrow-0.16.0.tar.gz"
+  sha256 "261992de4029a1593195ff4000501503bd403146471b3168bd2cc414ad0fb7f5"
 
   bottle do
     cellar :any
@@ -13,7 +13,6 @@ class ApacheArrow < Formula
 
   depends_on "cmake" => :build
   depends_on "flatbuffers" => :build
-  depends_on "double-conversion"
   depends_on "boost"
   depends_on "lz4"
   depends_on "thrift"
@@ -22,17 +21,20 @@ class ApacheArrow < Formula
   def install
     ENV.cxx11
     args = %W[
-      -DARROW_PARQUET=ON
-      -DARROW_PLASMA=OFF
+      -DARROW_COMPUTE=ON
+      -DARROW_CSV=ON
+      -DARROW_DATASET=ON
+      -DARROW_FILESYSTEM=ON
       -DARROW_HDFS=OFF
-      -DARROW_BUILD_TESTS=OFF
-      -DARROW_TEST_LINKAGE="static"
+      -DARROW_JSON=ON
+      -DARROW_PARQUET=ON
       -DARROW_BUILD_SHARED=OFF
       -DARROW_JEMALLOC=OFF
-      -DARROW_WITH_BROTLI=OFF
-      -DARROW_USE_GLOG=OFF 
+      -DARROW_USE_GLOG=OFF
       -DARROW_PYTHON=OFF
-      -DARROW_WITH_ZSTD=OFF
+      -DARROW_S3=OFF
+      -DARROW_WITH_LZ4=ON
+      -DARROW_WITH_ZLIB=ON
       -DARROW_WITH_SNAPPY=ON
       -DARROW_BUILD_UTILITIES=ON
       -DPARQUET_BUILD_EXECUTABLES=ON
